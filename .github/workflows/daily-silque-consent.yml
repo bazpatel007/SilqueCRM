@@ -1,0 +1,19 @@
+name: SilqueCRM Daily Consent Cron
+
+on:
+  schedule:
+    # Runs every day at 17:00 UTC
+    # = 9:00am during Pacific Standard Time (winter)
+    # = 10:00am during Pacific Daylight Time (summer)
+    - cron: "0 17 * * *"
+  # Allows you to run it manually from the Actions tab (great for testing)
+  workflow_dispatch: {}
+
+jobs:
+  ping-silquecrm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hit send-queued-consent endpoint
+        run: |
+          curl -sS -f "https://silquecrm-241.created.app/api/cron/send-queued-consent"
